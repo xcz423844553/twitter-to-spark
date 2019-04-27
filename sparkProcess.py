@@ -24,7 +24,7 @@ def send_dataframe_to_dashboard(df):
     top_tags = [str(t.hashtag) for t in df.select("hashtag").collect()]
     tags_count = [p.hashtag_count for p in df.select("hashtag_count").collect()]
     url = 'http://0.0.0.0:5050/updateData'
-    request_data = {'words': str(top_tags), 'count': str(tags_count)}
+    request_data = {'words': str(top_tags), 'counts': str(tags_count)}
     response = requests.post(url, data=request_data)
 
 def process_rdd(time, rdd):
@@ -43,7 +43,8 @@ def process_rdd(time, rdd):
         print("Error: %s" % e)
 
 words = dataStream.flatMap(lambda line: line.split(" "))
-hashtags = words.filter(lambda w: '#' in w).map(lambda x: (x, 1))
+#hashtags = words.filter(lambda w: '#' in w).map(lambda x: (x, 1))
+hashtags = words.map(lambda x: (x, 1))
 tags_totals = hashtags.updateStateByKey(sum_tags_counts)
 tags_totals.foreachRDD(process_rdd)
 ssc.start()
