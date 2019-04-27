@@ -1,12 +1,17 @@
 # twitter-to-spark
 
+## Project Description
+This project implemented a real-time processor with Spark for popular Twitter hashtags. The result is displayed on a webpage implemented with Flask.
+
 ![Screenshot | 600x0](Screenshot.png)
 
-Dependency:
+## Dependency:
 - pyspark
 - requests
+- spark 1.6.3
+- flask
 
-Set up:
+## Environment Setup:
 ```
 pip install pyspark
 pip install requests
